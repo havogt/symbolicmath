@@ -1,3 +1,6 @@
+#ifndef ARITHMETIC_H_
+#define ARITHMETIC_H_
+
 template<typename T1, typename T2> struct Sub
 {
 	using type = Sub<T1,T2>;
@@ -34,3 +37,5 @@ template<int I1, int I2> struct Add<Int<I1>, Int<I2> >
 {
 	using type = typename Int<I1 + I2>::type;
 };
+
+#endif

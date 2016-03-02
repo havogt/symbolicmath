@@ -1,3 +1,7 @@
+#ifndef PRINT_H_
+#define PRINT_H_
+
+
 #include <iostream>
 using namespace std;
 
@@ -36,3 +40,5 @@ template<typename T1, typename T2> struct myprint<Complex<T1, T2> >
 		cout << ")" << endl;
 	}
 };
+
+#endif

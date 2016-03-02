@@ -1,3 +1,6 @@
+#ifndef EVAL_H_
+#define EVAL_H_
+
 template<typename T> struct ToDouble
 {
 	static double eval()
@@ -5,3 +8,5 @@ template<typename T> struct ToDouble
 		return T::value;
 	}
 };
+
+#endif

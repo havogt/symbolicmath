@@ -1,3 +1,8 @@
+#ifndef MATH_FUNCTIONS_H_
+#define MATH_FUNCTIONS_H_
+
+#include <cmath>
+
 template<typename T> struct Sqrt
 {
 	using type = Sqrt<T>;
@@ -24,3 +29,5 @@ template<typename T> struct ToDouble<Sin<T> >
 		return std::sin(T::value);
 	}
 };
+
+#endif

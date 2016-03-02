@@ -1,3 +1,6 @@
+#ifndef SCALAR_H_
+#define SCALAR_H_
+
 struct Zero
 {
 	using type = Zero;
@@ -21,3 +24,5 @@ template<> struct Int<0>
 	using type = Zero;
 	static constexpr int value = 0;
 };
+
+#endif

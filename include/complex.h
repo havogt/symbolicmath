@@ -1,3 +1,6 @@
+#ifndef COMPLEX_H_
+#define COMPLEX_H_
+
 template<typename Real, typename Imag> struct Complex
 {
 	using real_type = Real;
@@ -12,3 +15,4 @@ template<typename T1R, typename T1I, typename T2R, typename T2I> struct Mult<Com
 	using type = typename Complex<real_type_temp,imag_type_temp>::type;
 };
 
+#endif
