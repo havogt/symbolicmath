@@ -8,6 +8,11 @@ template<typename Real, typename Imag> struct Complex
 	using type = Complex<Real, Imag>;
 };
 
+template<typename Real> struct Complex<Real,Zero>
+{
+	using type = Real;
+};
+
 template<typename T1R, typename T1I, typename T2R, typename T2I> struct Mult<Complex<T1R,T1I>, Complex<T2R,T2I> >
 {
 	using real_type_temp = typename Sub< typename Mult<T1R,T2R>::type, typename Mult<T1I, T2I>::type>::type;
