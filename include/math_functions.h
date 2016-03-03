@@ -26,7 +26,7 @@ template<typename T> struct ToDouble<Sin<T> >
 {
 	static double eval()
 	{
-		return std::sin(T::value);
+		return std::sin(ToDouble<T>::eval());
 	}
 };
 
