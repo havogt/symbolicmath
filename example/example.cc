@@ -35,9 +35,12 @@ int main()
 
 	myprint<Sub<Sqrt<Two>, Sqrt<Two>>::type>::print();
 
+	myprint<Add<Sqrt<Two>, Neg<Sqrt<Two> > >::type>::print();
 
 	std::cout << sqrt(sin(2.)) << std::endl;
 	std::cout << ToDouble<Sqrt<Two> >::eval() << std::endl;
 	std::cout << ToDouble<Sqrt<Sin<Two> > >::eval() << std::endl;
 
+	myprint<Add<Mult<Two, Sqrt<Two> >, Neg<Mult<Two, Sqrt<Two> > > >::type >::print();
+	myprint<Add<Mult<Two, Sqrt<Two> >::type, Neg<Mult<Sqrt<Two>, Two>::type >::type >::type >::print();
 }
