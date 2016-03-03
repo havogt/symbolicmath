@@ -1,13 +1,23 @@
 #include <iostream>
+#include "eval.h"
 #include "scalar.h"
 #include "arithmetic.h"
 #include "complex.h"
-#include "eval.h"
 #include "math_functions.h"
 #include "print.h"
 
 
 using namespace std;
+
+
+template<int I> struct myprint<RuntimeValue<I> >
+{
+	static void print()
+	{
+		cout << "RV" << I;
+	}
+};
+
 
 int main()
 {
@@ -70,4 +80,27 @@ int main()
 	cout << "\n";
 	myprint<Mult<Sqrt<Two>, One>::type>::print();
 	cout << "\n";
+
+	using V0 = RuntimeValue<0>;
+	using V1 = RuntimeValue<1>;
+
+	using ResultOfRuntimeMult = Mult<Complex<V0,V1>::type,Complex<V0,Neg<V1>::type>::type>::type;
+
+	V0::value = 2;
+	V1::value = 4;
+
+	myprint<Complex<V0,V1>::type>::print();
+	cout << "\n";
+
+	myprint<ResultOfRuntimeMult>::print();
+	cout << "\n";
+
+	using ResultOfRuntimeAdd = Add<V0,V1>::type;
+	myprint<ResultOfRuntimeAdd>::print();
+	cout << "\n";
+	cout << ToDouble<ResultOfRuntimeAdd>::eval();
+	cout << "\n";
+	cout << ToDouble<ResultOfRuntimeMult>::eval();
+	cout << "\n";
+
 }

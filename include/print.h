@@ -53,6 +53,30 @@ template<typename T1, typename T2> struct myprint<MultImpl<T1, T2> >
 	}
 };
 
+template<typename T1, typename T2> struct myprint<Add<T1, T2> >
+{
+	static void print()
+	{
+		cout << "Add(";
+		myprint<T1>::print();
+		cout << ",";
+		myprint<T2>::print();
+		cout << ")";
+	}
+};
+
+template<typename T1, typename T2> struct myprint<Sub<T1, T2> >
+{
+	static void print()
+	{
+		cout << "Sub(";
+		myprint<T1>::print();
+		cout << ",";
+		myprint<T2>::print();
+		cout << ")";
+	}
+};
+
 template<typename T> struct myprint<Sqrt<T> >
 {
 	static void print()

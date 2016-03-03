@@ -18,11 +18,11 @@ template<typename T1, typename T2, typename = void> struct Less
 	using type = typename LessValue<T1,T2>::type;
 };
 
-template<typename T1, typename T2> struct Less<T1,T2,void_t<typename T1::nested_type, Int<T2:: value> > >
+template<typename T1, typename T2> struct Less<T1,T2,void_t<typename T1::nested_type, Int<T2:: compare_value> > >
 {
 	using type = typename LessType<T1,T2>::type;
 };
-template<typename T1, typename T2> struct Less<T1,T2,void_t<Int<T1:: value>, typename T2::nested_type > >
+template<typename T1, typename T2> struct Less<T1,T2,void_t<Int<T1:: compare_value>, typename T2::nested_type > >
 {
 	using type = typename LessType<T1,T2>::type;
 };
@@ -42,11 +42,17 @@ template<typename T1, typename T2> struct LessType<T1,T2,typename std::enable_if
 	using type = typename Less<typename T1::nested_type, typename T2::nested_type>::type;
 };
 
-template<typename T1, typename T2> struct LessValue<T1,T2, typename std::enable_if<(T1::value <= T2::value) && !(T1::value >= T2::value)>::type >
-	: std::true_type{};
+template<typename T1, typename T2> struct LessValue<T1,T2, typename std::enable_if<(T1::compare_value <= T2::compare_value) && !(T1::compare_value >= T2::compare_value)>::type >
+//	: std::true_type
+	  {
+	using type = std::true_type;
+	  };
 
-template<typename T1, typename T2> struct LessValue<T1,T2, typename std::enable_if<T1::value >= T2::value>::type >
-	: std::false_type{};
+template<typename T1, typename T2> struct LessValue<T1,T2, typename std::enable_if<T1::compare_value >= T2::compare_value>::type >
+//	: std::false_type{};
+{
+	using type = std::false_type;
+};
 
 
 

@@ -8,5 +8,4 @@ template<typename T> struct ToDouble
 		return T::value;
 	}
 };
-
 #endif
