@@ -9,7 +9,7 @@ template<typename T> struct myprint
 {
 	static void print()
 	{
-		cout << "Unknown type" << endl;
+		cout << "Unknown type";
 	}
 };
 
@@ -17,7 +17,7 @@ template<> struct myprint<Zero>
 {
 	static void print()
 	{
-		cout << "Zero" << endl;
+		cout << "Zero";
 	}
 };
 
@@ -25,7 +25,7 @@ template<int I> struct myprint<Int<I> >
 {
 	static void print()
 	{
-		cout << "Int(" << I << ")" << endl;
+		cout << "Int(" << I << ")";
 	}
 };
 
@@ -37,7 +37,47 @@ template<typename T1, typename T2> struct myprint<Complex<T1, T2> >
 		myprint<T1>::print();
 		cout << ",";
 		myprint<T2>::print();
-		cout << ")" << endl;
+		cout << ")";
+	}
+};
+
+template<typename T1, typename T2> struct myprint<MultImpl<T1, T2> >
+{
+	static void print()
+	{
+		cout << "Mult(";
+		myprint<T1>::print();
+		cout << ",";
+		myprint<T2>::print();
+		cout << ")";
+	}
+};
+
+template<typename T> struct myprint<Sqrt<T> >
+{
+	static void print()
+	{
+		cout << "Sqrt(";
+		myprint<T>::print();
+		cout << ")";
+	}
+};
+template<typename T> struct myprint<Sin<T> >
+{
+	static void print()
+	{
+		cout << "Sin(";
+		myprint<T>::print();
+		cout << ")";
+	}
+};
+template<typename T> struct myprint<Neg<T> >
+{
+	static void print()
+	{
+		cout << "Neg(";
+		myprint<T>::print();
+		cout << ")";
 	}
 };
 

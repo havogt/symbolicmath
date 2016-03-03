@@ -6,11 +6,15 @@
 template<typename T> struct Sqrt
 {
 	using type = Sqrt<T>;
+	using nested_type = T;
+	static constexpr Category category = Category::SQRT;
 };
 
 template<typename T> struct Sin
 {
 	using type = Sin<T>;
+	using nested_type = T;
+	static constexpr Category category = Category::SIN;
 };
 
 

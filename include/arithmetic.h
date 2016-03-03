@@ -1,7 +1,7 @@
 #ifndef ARITHMETIC_H_
 #define ARITHMETIC_H_
 
-template <typename... Ts> using void_t = void;
+#include "compare.h"
 
 template<typename T> struct Neg
 {
@@ -26,25 +26,29 @@ template<int I1, int I2> struct Sub<Int<I1>, Int<I2>, typename std::enable_if<I1
 	using type = typename Int<I1 - I2>::type;
 };
 
-template<typename T1, typename T2> struct Mult
+template<typename T1, typename T2> struct MultImpl
 {
-	using type = Mult<T1, T2>;
+	using type = MultImpl<T1,T2>;
 };
 
-/**
- * Solves the problem that Mult<Int<X>,T> != Mult<T,Int<X> >.
- * TODO: A general solution for ordering of types is necessary, because still
- * Mult<T1,T2> != Mult<T2,T1> for T1,T2 != Int<>
- */
-template<typename T1, int I2> struct Mult<T1,Int<I2> >
-{
-	using type = Mult<Int<I2>, T1>;
-};
-
-template<int I1, int I2> struct Mult<Int<I1>, Int<I2> >
+template<int I1, int I2> struct MultImpl<Int<I1>, Int<I2> >
 {
 	using type = typename Int<I1 * I2>::type;
 };
+
+template<typename T1, typename T2, typename = void> struct Mult
+{
+};
+
+template<typename T1, typename T2> struct Mult<T1,T2,typename std::enable_if<Less<T1,T2>::type::value>::type >
+{
+	using type = typename MultImpl<T2, T1>::type;
+};
+template<typename T1, typename T2> struct Mult<T1,T2,typename std::enable_if<!Less<T1,T2>::type::value>::type>
+{
+	using type = typename MultImpl<T1, T2>::type;
+};
+
 
 template<typename T1, typename T2> struct Add
 {
