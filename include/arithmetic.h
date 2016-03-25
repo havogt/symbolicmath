@@ -17,6 +17,12 @@ template<typename T1, typename T2> struct Add
 	using type = Add<T1, T2>;
 };
 
+template<typename T1, typename T2> std::ostream& operator<<( std::ostream &out, Add<T1,T2> )
+{
+	out << "Add<" << T1() << "," << T2() << ">";
+	return out;
+}
+
 template<typename T> struct Add<T,Neg<T> >
 {
 	using type = Zero;
@@ -68,17 +74,15 @@ template<typename T1, typename T2> struct MultImpl
 	using type = MultImpl<T1,T2>;
 };
 
+template<typename T1, typename T2> std::ostream& operator<<( std::ostream &out, MultImpl<T1,T2> )
+{
+	out << "Mult<" << T1() << "," << T2() << ">";
+	return out;
+}
+
 template<int I1, int I2> struct MultImpl<Int<I1>, Int<I2> >
 {
 	using type = typename Int<I1 * I2>::type;
-};
-
-/*
- * Factor a minus sign
- */
-template<typename T1, typename T2> struct MultImpl<Neg<T1>, T2>
-{
-	using type = Neg<typename MultImpl<T1,T2>::type>;
 };
 
 template<typename T1, typename T2, typename = void> struct Mult
@@ -101,6 +105,15 @@ template<typename T1, typename T2> struct ToDouble<MultImpl<T1,T2> >
 		return ToDouble<T1>::eval()*ToDouble<T2>::eval();
 	}
 };
+
+/*
+ * Factor a minus sign
+ */
+template<typename T1, typename T2> struct MultImpl<Neg<T1>, T2>
+{
+	using type = Neg<typename Mult<T1,T2>::type>;
+};
+
 
 
 #endif
