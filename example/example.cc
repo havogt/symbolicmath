@@ -1,23 +1,9 @@
-#include <iostream>
-#include "eval.h"
-#include "scalar.h"
-#include "arithmetic.h"
-#include "complex.h"
-#include "math_functions.h"
-#include "print.h"
+#include "symbolicmath.h"
 
 
 using namespace std;
 
-
-template<int I> struct myprint<RuntimeValue<I> >
-{
-	static void print()
-	{
-		cout << "RV" << I;
-	}
-};
-
+using namespace symbolicmath;
 
 int main()
 {

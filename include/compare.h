@@ -8,6 +8,9 @@
 #ifndef COMPARE_H_
 #define COMPARE_H_
 
+namespace symbolicmath
+{
+
 template <typename... Ts> using void_t = void;
 
 template<typename T1, typename T2, typename = void> struct LessType{};
@@ -44,7 +47,7 @@ template<typename T1, typename T2> struct LessValue<T1,T2, typename std::enable_
 	using type = std::false_type;
 };
 
-
+}
 
 
 

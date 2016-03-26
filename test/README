@@ -1,0 +1,6 @@
+Tests are split into two categories:
+
+test_compiletime_XXX
+	These tests passed when no compilation errors are thrown
+
+test_runtime_XXX

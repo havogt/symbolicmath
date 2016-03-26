@@ -1,23 +1,8 @@
 #ifndef SCALAR_H_
 #define SCALAR_H_
 
-enum class Category { INT, COMPLEX, SQRT, SIN, RUNTIME_VALUE, NEG};
-
-struct Zero
+namespace symbolicmath
 {
-	using type = Zero;
-	static constexpr int value = 0;
-	static constexpr int compare_value = value;
-	static constexpr Category category = Category::INT;
-};
-
-struct One
-{
-	using type = One;
-	static constexpr int value = 1;
-	static constexpr int compare_value = value;
-	static constexpr Category category = Category::INT;
-};
 
 template<int I> struct Int
 {
@@ -27,13 +12,26 @@ template<int I> struct Int
 	static constexpr Category category = Category::INT;
 };
 
-template<> struct Int<0>
+template<int I> std::ostream& operator<<( std::ostream &out, Int<I> )
 {
-	using type = Zero;
-	static constexpr int value = 0;
-	static constexpr int compare_value = value;
-	static constexpr Category category = Category::INT;
-};
+	out << "Int<"<< I << ">";
+	return out;
+}
+
+std::ostream& operator<<( std::ostream &out, Int<0> )
+{
+	out << "Zero";
+	return out;
+}
+
+std::ostream& operator<<( std::ostream &out, Int<1> )
+{
+	out << "One";
+	return out;
+}
+
+using Zero = Int<0>;
+using One = Int<1>;
 
 template<int I> struct RuntimeValue
 {
@@ -43,6 +41,14 @@ template<int I> struct RuntimeValue
 	static double value;
 };
 
+template<int I> std::ostream& operator<<( std::ostream &out, RuntimeValue<I> )
+{
+	out << "RV" << I;
+	return out;
+}
+
 template<int I> double RuntimeValue<I>::value;
+
+}
 
 #endif

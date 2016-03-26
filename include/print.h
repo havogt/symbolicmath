@@ -3,6 +3,12 @@
 
 
 #include <iostream>
+
+
+namespace symbolicmath
+{
+
+
 using namespace std;
 
 template<typename T> struct myprint
@@ -53,7 +59,7 @@ template<typename T1, typename T2> struct myprint<MultImpl<T1, T2> >
 	}
 };
 
-template<typename T1, typename T2> struct myprint<Add<T1, T2> >
+template<typename T1, typename T2> struct myprint<AddImpl<T1, T2> >
 {
 	static void print()
 	{
@@ -104,5 +110,15 @@ template<typename T> struct myprint<Neg<T> >
 		cout << ")";
 	}
 };
+
+template<int I> struct myprint<RuntimeValue<I> >
+{
+	static void print()
+	{
+		cout << "RV" << I;
+	}
+};
+
+}
 
 #endif
