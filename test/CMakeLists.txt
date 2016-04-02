@@ -21,3 +21,7 @@ add_executable( test_compiletime_arithmetic
 add_executable( experimental_mpl_sort_types
     experimental_mpl_sort_types.cc
     )
+    
+add_executable( experimental_mpl_rebind_from_list
+    experimental_mpl_rebind_from_list.cc
+    )

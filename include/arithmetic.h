@@ -1,7 +1,7 @@
 #ifndef ARITHMETIC_H_
 #define ARITHMETIC_H_
 
-#include "compare.h"
+#include "sort.h"
 
 namespace symbolicmath
 {
@@ -49,18 +49,9 @@ template<typename T1, typename T2> struct ToDouble<AddImpl<T1,T2> >
 	}
 };
 
-template<typename T1, typename T2, typename = void> struct Add
+template<typename T1, typename T2> struct Add
 {
-};
-
-template<typename T1, typename T2> struct Add<T1,T2,typename std::enable_if<Less<T1,T2>::type::value>::type >
-{
-	using type = typename AddImpl<T2, T1>::type;
-	static constexpr Category category = Category::ADD;
-};
-template<typename T1, typename T2> struct Add<T1,T2,typename std::enable_if<!Less<T1,T2>::type::value>::type>
-{
-	using type = typename AddImpl<T1, T2>::type;
+	using type = typename SortNested<AddImpl<T1,T2>>::type;
 	static constexpr Category category = Category::ADD;
 };
 
@@ -104,18 +95,9 @@ template<int I1, int I2> struct MultImpl<Int<I1>, Int<I2> >
 	using type = typename Int<I1 * I2>::type;
 };
 
-template<typename T1, typename T2, typename = void> struct Mult
+template<typename T1, typename T2> struct Mult
 {
-};
-
-template<typename T1, typename T2> struct Mult<T1,T2,typename std::enable_if<Less<T1,T2>::type::value>::type >
-{
-	using type = typename MultImpl<T2, T1>::type;
-	static constexpr Category category = Category::MULT;
-};
-template<typename T1, typename T2> struct Mult<T1,T2,typename std::enable_if<!Less<T1,T2>::type::value>::type>
-{
-	using type = typename MultImpl<T1, T2>::type;
+	using type = typename SortNested<MultImpl<T1,T2>>::type;
 	static constexpr Category category = Category::MULT;
 };
 

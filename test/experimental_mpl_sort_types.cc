@@ -41,6 +41,17 @@ template<typename list> struct PrintList
 using namespace symbolicmath;
 using namespace std;
 
+template<typename T1, typename T2> struct SomeStruct
+{
+	using type = SomeStruct<T1,T2>;
+};
+
+template<typename T1, typename T2> std::ostream& operator<<( std::ostream &out, SomeStruct<T1,T2> )
+{
+	out << "SomeStruct<" << T1() << "," << T2() << ">";
+	return out;
+}
+
 int main()
 {
 	using list = mpl::vector<Int<3>,Int<1>,Int<7>,RuntimeValue<1>, Neg<Int<3>>>;
@@ -71,4 +82,11 @@ int main()
 	using sortedList = typename mpl::sort<list,Less<_1,_2> >::type;
 
 	PrintList<sortedList>()();
+
+	PrintList<Sort<Int<4>,Int<5>,Int<1>,RuntimeValue<1>>::sortedList>()();
+//	PrintElem()(Sort<Int<4>,Int<5>,Int<1>,RuntimeValue<1>>::at<0>::type());
+
+	std::cout << SomeStruct<Int<0>,Int<5>>() << std::endl;
+	std::cout << SortNested<SomeStruct<Int<0>,Int<5>>>::type() << std::endl;
+	std::cout << SortNested<SomeStruct<Int<5>,Int<0>>>::type() << std::endl;
 }
