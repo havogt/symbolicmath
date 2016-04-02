@@ -8,49 +8,67 @@
 #include <boost/mpl/at.hpp>
 #include <boost/mpl/int.hpp>
 #include <boost/mpl/min_element.hpp>
+#include <boost/mpl/max_element.hpp>
 #include <boost/mpl/less.hpp>
 #include <boost/mpl/placeholders.hpp>
 #include <boost/mpl/deref.hpp>
+#include <boost/mpl/for_each.hpp>
+#include <boost/mpl/sort.hpp>
 
-namespace bmpl = boost::mpl;
+namespace mpl = boost::mpl;
 
-using bmpl::_1;
-using bmpl::_2;
+using mpl::_1;
+using mpl::_2;
 
-namespace symbolicmath
+struct PrintElem
 {
+	template<typename T> void operator()( T )
+	{
+		std::cout << T() << ", ";
+	}
+};
 
-}
-
-
+template<typename list> struct PrintList
+{
+	void operator()()
+	{
+		std::cout << "[";
+		mpl::for_each<list>( PrintElem() );
+		std::cout << "]" << std::endl;
+	}
+};
 
 using namespace symbolicmath;
 using namespace std;
 
 int main()
 {
-//	using list = bmpl::vector<Int<3>,Int<1>,Int<7>>;
-	using list = bmpl::vector<bmpl::int_<3>,bmpl::int_<1>,bmpl::int_<7>>;
+	using list = mpl::vector<Int<3>,Int<1>,Int<7>,RuntimeValue<1>, Neg<Int<3>>>;
 
+	PrintList<list>()();
 
-	cout << typeid(bmpl::int_<3>).name() << endl;
+	cout << typeid(mpl::int_<3>).name() << endl;
 
-	cout << typeid(bmpl::front<list>::type).name() << endl;
-	cout << bmpl::at_c<list,2>::type() << endl;
+	cout << typeid(mpl::front<list>::type).name() << endl;
+	cout << mpl::at_c<list,2>::type() << endl;
 
-	using mytype = typename bmpl::min_element<list,
-			bmpl::less<
+	using minType = typename mpl::min_element<list,
+			Less<
 				_1,
 				_2>
 		>::type;
 
-	cout << bmpl::deref<mytype>::type() << endl;
+	cout << mpl::deref<minType>::type() << endl;
 
-//	using mytype = typename bmpl::min_element<list,
-//			bmpl::less<
-//				bmpl::int_<bmpl::_1::value>,
-//				bmpl::int_<bmpl::_2::value>
-//		>>::type;
+	using maxType = typename mpl::max_element<list,
+			Less<
+				_1,
+				_2>
+		>::type;
 
-//	cout << bmpl::min_element<list, bmpl::less<bmpl::int_<bmpl::_1::value>,bmpl::int_<bmpl::_2::value>>::type() << endl;
+	cout << mpl::deref<maxType>::type() << endl;
+
+	using sortedList = typename mpl::sort<list,Less<_1,_2> >::type;
+
+	PrintList<sortedList>()();
 }

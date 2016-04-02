@@ -11,7 +11,14 @@ template<typename T> struct Neg
 	using type = Neg<T>;
 	using nested_type = T;
 	static constexpr Category category = Category::NEG;
+//	static constexpr Category category = T::category; // want to sort Neg<T> and T next to each other
 };
+
+template<typename T> std::ostream& operator<<( std::ostream &out, Neg<T> )
+{
+	out << "Neg<" << T() << ">";
+	return out;
+}
 
 template<typename T1, typename T2> struct AddImpl
 {
