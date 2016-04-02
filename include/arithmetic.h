@@ -61,32 +61,15 @@ template<typename T1, typename T2> std::ostream& operator<<( std::ostream &out, 
 	return out;
 }
 
-template<typename T1, typename T2, typename = void> struct Sub
+template<typename T1, typename T2> struct Sub
 {
-	using type = Sub<T1,T2>;
-};
-
-template<typename T> struct Sub<T,T>
-{
-	using type = Zero;
-};
-
-template<typename T1, typename T2> struct Sub<T1,Neg<T2> >
-{
-	using type = typename Add<T1,T2>::type;
-};
-
-/**
- * Enable only if first and second type are different to resolve ambiguity with Sub<T,T>
- */
-template<int I1, int I2> struct Sub<Int<I1>, Int<I2>, typename std::enable_if<I1 != I2>::type >
-{
-	using type = typename Int<I1 - I2>::type;
+	using type = typename Add<T1,typename Neg<T1>::type>::type;
 };
 
 template<typename T1, typename T2> struct MultImpl
 {
 	using type = MultImpl<T1,T2>;
+	using nested_type = T1; // TODO should be both
 	static constexpr Category category = Category::MULT;
 };
 
@@ -124,6 +107,10 @@ template<typename T1, typename T2> struct ToDouble<MultImpl<T1,T2> >
  * Factor a minus sign
  */
 template<typename T1, typename T2> struct MultImpl<Neg<T1>, T2>
+{
+	using type = Neg<typename Mult<T1,T2>::type>;
+};
+template<typename T1, typename T2> struct MultImpl<T1, Neg<T2>>
 {
 	using type = Neg<typename Mult<T1,T2>::type>;
 };
