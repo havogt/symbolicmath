@@ -39,12 +39,12 @@ template<typename T1, typename T2> struct LessType<T1,T2,typename std::enable_if
 
 template<typename T1, typename T2> struct LessValue<T1,T2, typename std::enable_if<(T1::compare_value >= T2::compare_value) && !(T1::compare_value <= T2::compare_value)>::type >
 {
-	using type = std::true_type;
+	using type = std::false_type;
 };
 
 template<typename T1, typename T2> struct LessValue<T1,T2, typename std::enable_if<T1::compare_value <= T2::compare_value>::type >
 {
-	using type = std::false_type;
+	using type = std::true_type;
 };
 
 }
