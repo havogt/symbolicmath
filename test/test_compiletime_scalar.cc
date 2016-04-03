@@ -1,5 +1,8 @@
 #include "symbolicmath.h"
 
+#include <iostream>
+using namespace std;
+
 using namespace symbolicmath;
 
 void ZeroDecaysToInt0()

@@ -1,7 +1,9 @@
 #ifndef ARITHMETIC_H_
 #define ARITHMETIC_H_
 
+#include "helper/cuda_common.h"
 #include "sort.h"
+
 
 namespace symbolicmath
 {
@@ -12,6 +14,16 @@ template<typename T> struct Neg
 	using nested_type = T;
 	static constexpr Category category = Category::NEG;
 //	static constexpr Category category = T::category; // want to sort Neg<T> and T next to each other
+
+	template<typename... Args> CUDA_HOST_DEVICE static double eval( Args... args )
+	{
+		return -T::eval( args... );
+	}
+};
+
+template<typename T> struct Neg<Neg<T>>
+{
+	using type = typename T::type;
 };
 
 template<typename T> std::ostream& operator<<( std::ostream &out, Neg<T> )
@@ -23,6 +35,11 @@ template<typename T> std::ostream& operator<<( std::ostream &out, Neg<T> )
 template<typename T1, typename T2> struct AddImpl
 {
 	using type = AddImpl<T1, T2>;
+
+	template<typename... Args> CUDA_HOST_DEVICE static double eval( Args... args )
+	{
+		return T1::eval( args... )+T2::eval( args... );
+	}
 };
 
 
@@ -41,14 +58,6 @@ template<int I1, int I2> struct AddImpl<Int<I1>, Int<I2> >
 	using type = typename Int<I1 + I2>::type;
 };
 
-template<typename T1, typename T2> struct ToDouble<AddImpl<T1,T2> >
-{
-	static double eval()
-	{
-		return ToDouble<T1>::eval()+ToDouble<T2>::eval();
-	}
-};
-
 template<typename T1, typename T2> struct Add
 {
 	using type = typename SortNested<AddImpl<T1,T2>>::type;
@@ -63,7 +72,7 @@ template<typename T1, typename T2> std::ostream& operator<<( std::ostream &out, 
 
 template<typename T1, typename T2> struct Sub
 {
-	using type = typename Add<T1,typename Neg<T1>::type>::type;
+	using type = typename Add<T1,typename Neg<T2>::type>::type;
 };
 
 template<typename T1, typename T2> struct MultImpl
@@ -71,6 +80,11 @@ template<typename T1, typename T2> struct MultImpl
 	using type = MultImpl<T1,T2>;
 	using nested_type = T1; // TODO should be both
 	static constexpr Category category = Category::MULT;
+
+	template<typename... Args> CUDA_HOST_DEVICE static double eval( Args... args )
+	{
+		return T1::eval( args... )*T2::eval( args... );
+	}
 };
 
 template<int I1, int I2> struct MultImpl<Int<I1>, Int<I2> >
@@ -94,14 +108,6 @@ template<typename T1, typename T2> std::ostream& operator<<( std::ostream &out, 
 	out << "Mult<" << T1() << "," << T2() << ">";
 	return out;
 }
-
-template<typename T1, typename T2> struct ToDouble<MultImpl<T1,T2> >
-{
-	static double eval()
-	{
-		return ToDouble<T1>::eval()*ToDouble<T2>::eval();
-	}
-};
 
 /*
  * Factor a minus sign

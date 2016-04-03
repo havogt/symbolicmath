@@ -32,10 +32,9 @@ template<typename T> struct HasCompareValue
 
 
 /*
- * Doesn't work in g++ 4.x.
+ * The following doesn't work in g++ 4.x.
  * Bug?
  *
-
 template <typename... Ts> using void_t = void;
 
 template<typename T, typename = void> struct HasCompareValue

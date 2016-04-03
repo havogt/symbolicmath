@@ -1,6 +1,8 @@
 #ifndef SCALAR_H_
 #define SCALAR_H_
 
+#include "helper/cuda_common.h"
+
 namespace symbolicmath
 {
 
@@ -10,6 +12,11 @@ template<int I> struct Int
 	static constexpr int value = I;
 	static constexpr int compare_value = value;
 	static constexpr Category category = Category::INT;
+
+	template<typename... Args> CUDA_HOST_DEVICE static inline double eval( Args... args )
+	{
+		return (double)I;
+	}
 };
 
 template<int I> std::ostream& operator<<( std::ostream &out, Int<I> )
@@ -38,7 +45,22 @@ template<int I> struct RuntimeValue
 	using type = RuntimeValue<I>;
 	using nested_type = Int<I>;
 	static constexpr Category category = Category::RUNTIME_VALUE;
-	static double value;
+
+	template<int ArgI> CUDA_HOST_DEVICE static inline  double evalHelper()
+	{
+		return 0;// TODO error
+	}
+
+	template<int ArgI, typename First, typename... Args> CUDA_HOST_DEVICE static inline double evalHelper( First first, Args... args )
+	{
+		if( ArgI==I ) return first;
+		else return evalHelper<ArgI+1>( args... );
+	}
+
+	template<typename... Args> CUDA_HOST_DEVICE static inline double eval( Args... args )
+	{
+		return evalHelper<0>( args... );
+	}
 };
 
 template<int I> std::ostream& operator<<( std::ostream &out, RuntimeValue<I> )
@@ -46,8 +68,6 @@ template<int I> std::ostream& operator<<( std::ostream &out, RuntimeValue<I> )
 	out << "RV" << I;
 	return out;
 }
-
-template<int I> double RuntimeValue<I>::value;
 
 }
 

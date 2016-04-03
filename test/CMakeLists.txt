@@ -25,3 +25,20 @@ add_executable( experimental_mpl_sort_types
 add_executable( experimental_mpl_rebind_from_list
     experimental_mpl_rebind_from_list.cc
     )
+    
+add_executable( test_eval
+    test_eval.cc
+    )
+    
+add_executable( test_gcc4_problem
+    test_gcc4_problem.cc
+    )
+    
+    
+find_package( CUDA )
+
+set( CUDA_NVCC_FLAGS "-std=c++11" )
+
+cuda_add_executable( test_eval_cuda
+	test_eval.cu
+	)

@@ -25,6 +25,12 @@ template<typename T1R, typename T1I, typename T2R, typename T2I> struct MultImpl
 	using type = typename Complex<real_type_temp,imag_type_temp>::type;
 };
 
+template<typename T1, typename T2> std::ostream& operator<<( std::ostream &out, Complex<T1,T2> )
+{
+	out << "Complex<" << T1() << "," << T2() << ">";
+	return out;
+}
+
 }
 
 #endif

@@ -11,31 +11,40 @@ template<typename T> struct Sqrt
 	using type = Sqrt<T>;
 	using nested_type = T;
 	static constexpr Category category = Category::SQRT;
+
+	template<typename... Args> CUDA_HOST_DEVICE static double eval( Args... args )
+	{
+		return sqrt(T::eval( args... ));
+	}
 };
+
+template<typename T> std::ostream& operator<<( std::ostream &out, Sqrt<T> )
+{
+	out << "Sqrt<" << T() << ">";
+	return out;
+}
+
 
 template<typename T> struct Sin
 {
 	using type = Sin<T>;
 	using nested_type = T;
 	static constexpr Category category = Category::SIN;
-};
 
-
-template<typename T> struct ToDouble<Sqrt<T> >
-{
-	static double eval()
+	template<typename... Args> CUDA_HOST_DEVICE static double eval( Args... args )
 	{
-		return std::sqrt(ToDouble<T>::eval() );
+		return sin(T::eval( args... ));
 	}
 };
 
-template<typename T> struct ToDouble<Sin<T> >
+template<typename T> std::ostream& operator<<( std::ostream &out, Sin<T> )
 {
-	static double eval()
-	{
-		return std::sin(ToDouble<T>::eval());
-	}
-};
+	out << "Sin<" << T() << ">";
+	return out;
+}
+
+
+
 
 }
 
