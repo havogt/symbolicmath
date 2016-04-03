@@ -22,6 +22,12 @@ template<typename... Ts> struct Sort
 	};
 };
 
+template<template<typename...> class Template, typename... Ts> struct SortAndBind
+{
+	using sortedList = typename Sort<Ts...>::sortedList;
+	using type = typename BindList<sortedList,Template>::type;
+};
+
 template<typename T> struct SortNested;
 
 template<template<typename...> class Template, typename... Ts> struct SortNested<Template<Ts...>>

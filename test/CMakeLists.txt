@@ -30,6 +30,10 @@ add_executable( test_compiletime_matrix
     test_compiletime_matrix.cc
     )
     
+add_executable( test_compiletime_collapse_zero
+    test_compiletime_collapse_zero.cc
+    )
+    
 add_executable( test_eval
     test_eval.cc
     )

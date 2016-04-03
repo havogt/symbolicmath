@@ -15,7 +15,7 @@ namespace symbolicmath
 
 template <typename... Ts> using void_t = void;
 
-template<typename T1, typename T2, typename = void> struct LessType{};
+template<typename T1, typename T2, typename = void> struct LessType;//{};
 template<typename T1, typename T2, typename = void> struct LessValue{};
 
 template<typename T1, typename T2, typename = void> struct Less;

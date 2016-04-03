@@ -32,7 +32,7 @@ template<template<typename...> class Dest> struct Bind
 	template<typename T> struct toTypesOf;
 	template<template<typename...> class Src, typename... NewTs> struct toTypesOf<Src<NewTs...>>
 	{
-		using type = typename Dest<NewTs...>::type;
+		using type = Dest<NewTs...>;
 	};
 };
 
