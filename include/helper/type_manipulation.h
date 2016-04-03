@@ -43,8 +43,8 @@ template<typename List> struct BindListToTemporary
 
 /**
  * If all template classes would accept any number of template parameters, we could directly fold the list to the
- * template parameters. In general, we bind the parameters first to a temporary template class, and then bind all
- * template parameters at once to the destination.
+ * template parameters. In general, we need to bind the parameters first to a temporary template class, and then bind all
+ * template parameters at once to the destination (i.e. with the correct number of template parameters).
  */
 template<typename List, template<typename...> class Template> struct BindList
 {
