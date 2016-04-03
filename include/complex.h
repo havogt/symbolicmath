@@ -1,6 +1,8 @@
 #ifndef COMPLEX_H_
 #define COMPLEX_H_
 
+#include "category_trait.h"
+
 namespace symbolicmath
 {
 
@@ -10,6 +12,11 @@ template<typename Real, typename Imag> struct Complex
 	using imag_type = Imag;
 	using type = Complex<Real, Imag>;
 	using nested_type = Real; // TODO this is not a valid nested_type
+//	static constexpr Category category = Category::COMPLEX;
+};
+
+template<typename T1,typename T2> struct CategoryTrait<Complex<T1,T2>>
+{
 	static constexpr Category category = Category::COMPLEX;
 };
 

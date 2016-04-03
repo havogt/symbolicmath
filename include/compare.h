@@ -30,13 +30,13 @@ template<typename T1, typename T2> struct Less<T1,T2,typename std::enable_if<!(H
 };
 
 
-template<typename T1, typename T2> struct LessType<T1,T2,typename std::enable_if<(T1::category <= T2::category) && !(T1::category >= T2::category)>::type>
+template<typename T1, typename T2> struct LessType<T1,T2,typename std::enable_if<(CategoryTrait<T1>::category <= CategoryTrait<T2>::category) && !(CategoryTrait<T1>::category >= CategoryTrait<T2>::category)>::type>
 	: std::true_type{};
 
-template<typename T1, typename T2> struct LessType<T1,T2,typename std::enable_if<(T1::category >= T2::category) && !(T1::category <= T2::category)>::type>
+template<typename T1, typename T2> struct LessType<T1,T2,typename std::enable_if<(CategoryTrait<T1>::category >= CategoryTrait<T2>::category) && !(CategoryTrait<T1>::category <= CategoryTrait<T2>::category)>::type>
 	: std::false_type{};
 
-template<typename T1, typename T2> struct LessType<T1,T2,typename std::enable_if<(T1::category >= T2::category) && (T1::category <= T2::category)>::type>
+template<typename T1, typename T2> struct LessType<T1,T2,typename std::enable_if<(CategoryTrait<T1>::category >= CategoryTrait<T2>::category) && (CategoryTrait<T1>::category <= CategoryTrait<T2>::category)>::type>
 {
 	using type = typename Less<typename T1::nested_type, typename T2::nested_type>::type;
 };

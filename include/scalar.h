@@ -11,13 +11,19 @@ template<int I> struct Int
 	using type = Int<I>;
 	static constexpr int value = I;
 	static constexpr int compare_value = value;
-	static constexpr Category category = Category::INT;
+//	static constexpr Category category = Category::INT;
 
 	template<typename... Args> CUDA_HOST_DEVICE static inline double eval( Args... args )
 	{
 		return (double)I;
 	}
 };
+
+template<int I> struct CategoryTrait<Int<I>>
+{
+	static constexpr Category category = Category::INT;
+};
+
 
 template<int I> std::ostream& operator<<( std::ostream &out, Int<I> )
 {
@@ -44,7 +50,7 @@ template<int I> struct RuntimeValue
 {
 	using type = RuntimeValue<I>;
 	using nested_type = Int<I>;
-	static constexpr Category category = Category::RUNTIME_VALUE;
+//	static constexpr Category category = Category::RUNTIME_VALUE;
 
 	template<int ArgI> CUDA_HOST_DEVICE static inline  double evalHelper()
 	{
@@ -62,6 +68,12 @@ template<int I> struct RuntimeValue
 		return evalHelper<0>( args... );
 	}
 };
+
+template<int I> struct CategoryTrait<RuntimeValue<I>>
+{
+	static constexpr Category category = Category::RUNTIME_VALUE;
+};
+
 
 template<int I> std::ostream& operator<<( std::ostream &out, RuntimeValue<I> )
 {
