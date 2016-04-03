@@ -15,15 +15,15 @@ template<> struct PauliMatrix<0>
 
 template<> struct PauliMatrix<1>
 {
-	using type = Matrix<2,Zero::type,One::type,One::type,Zero::type>::type;
+	using type = Matrix<Zero::type,One::type,One::type,Zero::type>::type;
 };
 template<> struct PauliMatrix<2>
 {
-	using type = Matrix<2,Zero::type,Neg<Complex<Zero::type,One::type>::type>::type,Complex<Zero::type,One::type>::type,Zero::type>::type;
+	using type = Matrix<Zero::type,Neg<Complex<Zero::type,One::type>::type>::type,Complex<Zero::type,One::type>::type,Zero::type>::type;
 };
 template<> struct PauliMatrix<3>
 {
-	using type = Matrix<2,One::type,One::type,Zero::type,Neg<One::type>::type>::type;
+	using type = Matrix<One::type,One::type,Zero::type,Neg<One::type>::type>::type;
 };
 
 struct SU2
@@ -32,7 +32,7 @@ struct SU2
 	using V1 = RuntimeValue<1>::type;
 	using V2 = RuntimeValue<2>::type;
 	using V3 = RuntimeValue<3>::type;
-	using type = Matrix<2,Complex<V0,V1>::type,Complex<V2,V3>::type, Complex<Neg<V2>::type,V3>::type, Complex<V0,Neg<V1>::type>::type >::type;
+	using type = Matrix<Complex<V0,V1>::type,Complex<V2,V3>::type, Complex<Neg<V2>::type,V3>::type, Complex<V0,Neg<V1>::type>::type >::type;
 };
 
 }

@@ -2,27 +2,29 @@
 #define MATRIX_H_
 
 #include "arithmetic.h"
+#include "math_functions.h"
 
 #include <iomanip>
 
 #include "boost/mpl/vector.hpp"
 #include "boost/mpl/at.hpp"
 #include "boost/mpl/deref.hpp"
+#include "boost/mpl/placeholders.hpp"
+#include "boost/mpl/transform.hpp"
 
 namespace symbolicmath
 {
 
-template<int N, typename... Entries> struct Matrix
+template<typename... Entries> struct Matrix
 {
-	using type = Matrix<N, Entries...>;
+	using type = Matrix<Entries...>;
 
 	using entries = boost::mpl::vector<Entries...>;
-	static constexpr int n = N;
-	static_assert( N*N == sizeof...(Entries), "size of matrix and number of entries do not match" );
+	static constexpr int n = CompileTimeSqrt<sizeof...(Entries)>::value;
 
 	template<int I, int J> struct get
 	{
-		using type = typename boost::mpl::deref<typename boost::mpl::at_c<entries,I+J*N>::type>::type;
+		using type = typename boost::mpl::deref<typename boost::mpl::at_c<entries,I+J*n>::type>::type;
 	};
 };
 
@@ -45,16 +47,13 @@ template<typename T1, typename T2> struct MatrixMult
 	using T01 = typename Add<typename Mult<typename T1::template get<0,0>::type, typename T2::template get<0,1>::type>::type,typename Mult<typename T1::template get<0,1>::type,typename T2::template get<1,1>::type>::type>::type;
 	using T10 = typename Add<typename Mult<typename T1::template get<0,1>::type, typename T2::template get<0,0>::type>::type,typename Mult<typename T1::template get<1,1>::type,typename T2::template get<0,1>::type>::type>::type;
 	using T11 = typename Add<typename Mult<typename T1::template get<0,1>::type, typename T2::template get<1,0>::type>::type,typename Mult<typename T1::template get<1,1>::type,typename T2::template get<1,1>::type>::type>::type;
-	using type = typename Matrix<T1::n, typename T00::type, typename T01::type, typename T10::type, typename T11::type >::type; // TODO somewhere is a bug: missing function call, otherwise TXX::type wouldn't be necessary
+	using type = typename Matrix<typename T00::type, typename T01::type, typename T10::type, typename T11::type >::type; // TODO somewhere is a bug: missing function call, otherwise TXX::type wouldn't be necessary
 };
 
 template<typename T1, typename T2> struct MatrixAdd
 {
-	using T00 = typename Add<typename T1::template get<0,0>::type, typename T2::template get<0,0>::type>::type;
-	using T01 = typename Add<typename T1::template get<0,1>::type, typename T2::template get<0,1>::type>::type;
-	using T10 = typename Add<typename T1::template get<1,0>::type, typename T2::template get<1,0>::type>::type;
-	using T11 = typename Add<typename T1::template get<1,1>::type, typename T2::template get<1,1>::type>::type;
-	using type = typename Matrix<T1::n, typename T00::type, typename T01::type, typename T10::type, typename T11::type >::type;
+	using newEntries = typename boost::mpl::transform<typename T1::entries, typename T2::entries, Add<boost::mpl::_1,boost::mpl::_2> >::type;
+	using type = typename BindList<newEntries,Matrix>::type;
 };
 
 template<typename T1, typename T2> struct AntiCommutator
@@ -78,10 +77,10 @@ template<int N, int CurN, typename First, typename... Entries> std::ostream& pri
 	return out;
 }
 
-template<int N, typename... Entries> std::ostream& operator<<( std::ostream &out, Matrix<N,Entries...> )
+template<typename... Entries> std::ostream& operator<<( std::ostream &out, Matrix<Entries...> )
 {
 	out << std::left << std::setw( 8 ) << "Matrix[" ;
-	printMatrixHelper<N,N,Entries...>(out);
+	printMatrixHelper<Matrix<Entries...>::n,Matrix<Entries...>::n,Entries...>(out);
 	out << " ]";
 	return out;
 }

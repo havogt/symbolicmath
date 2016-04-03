@@ -17,6 +17,22 @@ template<typename T> struct Sqrt
 	}
 };
 
+constexpr int ConstexprSqrt( int I, int R = 1 )
+{
+	return (R*R>I)?(-1):((R*R==I)?(R):(ConstexprSqrt(I,R+1)));
+}
+
+template<int I> struct CompileTimeSqrt
+{
+	static constexpr int value = ConstexprSqrt(I);
+	static_assert( value >= 0, "CompileTimeSqrt called for non-square number" );
+};
+
+//template<int I> struct Sqrt<Int<I>>
+//{
+//	using type = // TODO make this compile time collapsing if square number
+//};
+
 template<typename T> struct CategoryTrait<Sqrt<T>>
 {
 	static constexpr Category category = Category::SQRT;

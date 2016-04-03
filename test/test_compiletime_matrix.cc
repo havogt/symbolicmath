@@ -4,7 +4,7 @@
 using namespace symbolicmath;
 using namespace std;
 
-using matrix = Matrix<2,Int<4>,Int<3>,Int<2>,Int<1>>;
+using matrix = Matrix<Int<4>,Int<3>,Int<2>,Int<1>>;
 
 void MatrixPrints()
 {
