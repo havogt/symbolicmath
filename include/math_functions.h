@@ -10,7 +10,6 @@ template<typename T> struct Sqrt
 {
 	using type = Sqrt<T>;
 	using nested_type = T;
-//	static constexpr Category category = Category::SQRT;
 
 	template<typename... Args> CUDA_HOST_DEVICE static double eval( Args... args )
 	{
@@ -34,7 +33,6 @@ template<typename T> struct Sin
 {
 	using type = Sin<T>;
 	using nested_type = T;
-//	static constexpr Category category = Category::SIN;
 
 	template<typename... Args> CUDA_HOST_DEVICE static double eval( Args... args )
 	{
