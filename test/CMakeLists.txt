@@ -26,6 +26,10 @@ add_executable( experimental_mpl_rebind_from_list
     experimental_mpl_rebind_from_list.cc
     )
     
+add_executable( test_compiletime_matrix
+    test_compiletime_matrix.cc
+    )
+    
 add_executable( test_eval
     test_eval.cc
     )

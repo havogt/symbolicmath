@@ -58,6 +58,16 @@ template<int I1, int I2> struct AddImpl<Int<I1>, Int<I2> >
 	using type = typename Int<I1 + I2>::type;
 };
 
+template<int I1, int I2> struct AddImpl<Neg<Int<I1>>, Int<I2> >
+{
+	using type = typename Int<-I1 + I2>::type;
+};
+
+template<int I1, int I2> struct AddImpl<Int<I1>, Neg<Int<I2> > >
+{
+	using type = typename Int<I1 - I2>::type;
+};
+
 template<typename T1, typename T2> struct Add
 {
 	using type = typename SortNested<AddImpl<T1,T2>>::type;
@@ -91,6 +101,7 @@ template<int I1, int I2> struct MultImpl<Int<I1>, Int<I2> >
 {
 	using type = typename Int<I1 * I2>::type;
 };
+
 
 template<typename T1, typename T2> struct Mult
 {
