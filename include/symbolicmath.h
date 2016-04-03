@@ -4,6 +4,8 @@
 
 #include <ostream>
 
+#include "helper/cxx14_types.h"
+
 #include "category_trait.h"
 #include "scalar.h"
 #include "arithmetic.h"

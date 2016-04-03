@@ -69,7 +69,7 @@ template<typename T> struct Add<Zero::type, T>
 	using type = typename T::type;
 };
 
-template<typename T> struct Add<T,T, typename std::enable_if<!std::is_same<T,Zero::type>::value>::type>
+template<typename T> struct Add<T,T, enable_if_t<!std::is_same<T,Zero::type>::value>>
 {
 	using type = typename Mult<Int<2>,typename T::type>::type;
 };
@@ -84,17 +84,17 @@ template<typename T> struct Add<Neg<T>,T >
 	using type = Zero::type;
 };
 
-template<int I1, int I2> struct Add<Int<I1>, Int<I2>, typename std::enable_if<I1!=I2&&I1!=0>::type >
+template<int I1, int I2> struct Add<Int<I1>, Int<I2>, enable_if_t<I1!=I2&&I1!=0> >
 {
 	using type = typename Int<I1 + I2>::type;
 };
 
-template<int I1, int I2> struct Add<Neg<Int<I1>>, Int<I2>, typename std::enable_if<I1!=I2&&I1!=0>::type >
+template<int I1, int I2> struct Add<Neg<Int<I1>>, Int<I2>, enable_if_t<I1!=I2&&I1!=0> >
 {
 	using type = typename Int<-I1 + I2>::type;
 };
 
-template<int I1, int I2> struct Add<Int<I1>, Neg<Int<I2> >, typename std::enable_if<I1!=I2&&I1!=0>::type  >
+template<int I1, int I2> struct Add<Int<I1>, Neg<Int<I2> >, enable_if_t<I1!=I2&&I1!=0> >
 {
 	using type = typename Int<I1 - I2>::type;
 };
@@ -126,7 +126,7 @@ template<typename T> struct Mult<One::type, T>
 	using type = typename T::type;
 };
 
-template<int I1, int I2> struct Mult<Int<I1>, Int<I2>, typename std::enable_if<I1 != 0 && I2 != 0 && I1 != 1>::type >
+template<int I1, int I2> struct Mult<Int<I1>, Int<I2>, enable_if_t<I1 != 0 && I2 != 0 && I1 != 1> >
 {
 	using type = typename Int<I1 * I2>::type;
 };
@@ -140,11 +140,11 @@ template<typename T1, typename T2> std::ostream& operator<<( std::ostream &out, 
 /*
  * Factor a minus sign
  */
-template<typename T1, typename T2> struct Mult<Neg<T1>, T2, typename std::enable_if<!std::is_same<T1,Zero::type>::value && !std::is_same<T1,One::type>::value>::type>
+template<typename T1, typename T2> struct Mult<Neg<T1>, T2, enable_if_t<!std::is_same<T1,Zero::type>::value && !std::is_same<T1,One::type>::value>>
 {
 	using type = typename Neg<typename Mult<T1,T2>::type>::type;
 };
-template<typename T1, typename T2> struct Mult<T1, Neg<T2>, typename std::enable_if<!std::is_same<T1,Zero::type>::value && !std::is_same<T1,One::type>::value>::type>
+template<typename T1, typename T2> struct Mult<T1, Neg<T2>, enable_if_t<!std::is_same<T1,Zero::type>::value && !std::is_same<T1,One::type>::value> >
 {
 	using type = typename Neg<typename Mult<T1,T2>::type>::type;
 };

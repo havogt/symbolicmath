@@ -31,14 +31,14 @@ template<typename T1R, typename T1I, typename T2R, typename T2I> struct Mult<Com
 	using type = typename Complex<real_type_temp,imag_type_temp>::type;
 };
 
-template<int I, typename T2R, typename T2I> struct Mult<Int<I>, Complex<T2R,T2I>, typename std::enable_if<I!=0&&I!=1>::type >
+template<int I, typename T2R, typename T2I> struct Mult<Int<I>, Complex<T2R,T2I>, enable_if_t<I!=0&&I!=1> >
 {
 	using real_type_temp = typename Mult<Int<I>,typename T2R::type>::type;
 	using imag_type_temp = typename Mult<Int<I>,typename T2I::type>::type;
 	using type = typename Complex<real_type_temp,imag_type_temp>::type;
 };
 
-template<typename T1R, typename T1I, typename T2R, typename T2I> struct Add<Complex<T1R,T1I>, Complex<T2R,T2I>, typename std::enable_if<!(std::is_same<T1R,T2R>::value&&std::is_same<T1I,T2I>::value)>::type >
+template<typename T1R, typename T1I, typename T2R, typename T2I> struct Add<Complex<T1R,T1I>, Complex<T2R,T2I>,enable_if_t<!(std::is_same<T1R,T2R>::value&&std::is_same<T1I,T2I>::value)> >
 {
 	using real_type_temp = typename Add< typename T1R::type, typename T2R::type>::type;
 	using imag_type_temp = typename Add< typename T1I::type, typename T2I::type>::type;
