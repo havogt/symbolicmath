@@ -21,6 +21,19 @@ template<> struct PauliMatrix<2>
 {
 	using type = Matrix<2,Zero::type,Neg<Complex<Zero::type,One::type>::type>::type,Complex<Zero::type,One::type>::type,Zero::type>::type;
 };
+template<> struct PauliMatrix<3>
+{
+	using type = Matrix<2,One::type,One::type,Zero::type,Neg<One::type>::type>::type;
+};
+
+struct SU2
+{
+	using V0 = RuntimeValue<0>::type;
+	using V1 = RuntimeValue<1>::type;
+	using V2 = RuntimeValue<2>::type;
+	using V3 = RuntimeValue<3>::type;
+	using type = Matrix<2,Complex<V0,V1>::type,Complex<V2,V3>::type, Complex<Neg<V2>::type,V3>::type, Complex<V0,Neg<V1>::type>::type >::type;
+};
 
 }
 

@@ -33,10 +33,28 @@ void MatrixMultWorks()
 	cout << MatrixMult<PauliMatrix<2>::type, PauliMatrix<2>::type>::type() << endl;
 }
 
+void PrintSU2()
+{
+	cout << SU2::type() << endl;
+}
+
+void FaddeevPopovApplication()
+{
+	cout << Real<Trace<MatrixMult<PauliMatrix<1>::type,MatrixMult<PauliMatrix<2>::type, SU2::type>::type>::type>::type>::type() << endl;
+}
+
+void TestAntiCommutator()
+{
+	cout << AntiCommutator<PauliMatrix<1>::type, PauliMatrix<2>::type>::type() << endl;
+}
+
 int main()
 {
 	MatrixPrints();
 	GetElementWorks();
 	TraceWorks();
 	MatrixMultWorks();
+	PrintSU2();
+	FaddeevPopovApplication();
+	TestAntiCommutator();
 }

@@ -45,7 +45,21 @@ template<typename T1, typename T2> struct MatrixMult
 	using T01 = typename Add<typename Mult<typename T1::template get<0,0>::type, typename T2::template get<0,1>::type>::type,typename Mult<typename T1::template get<0,1>::type,typename T2::template get<1,1>::type>::type>::type;
 	using T10 = typename Add<typename Mult<typename T1::template get<0,1>::type, typename T2::template get<0,0>::type>::type,typename Mult<typename T1::template get<1,1>::type,typename T2::template get<0,1>::type>::type>::type;
 	using T11 = typename Add<typename Mult<typename T1::template get<0,1>::type, typename T2::template get<1,0>::type>::type,typename Mult<typename T1::template get<1,1>::type,typename T2::template get<1,1>::type>::type>::type;
-	using type = typename Matrix<T1::n, T00, T01, T10, T11 >::type;
+	using type = typename Matrix<T1::n, typename T00::type, typename T01::type, typename T10::type, typename T11::type >::type; // TODO somewhere is a bug: missing function call, otherwise TXX::type wouldn't be necessary
+};
+
+template<typename T1, typename T2> struct MatrixAdd
+{
+	using T00 = typename Add<typename T1::template get<0,0>::type, typename T2::template get<0,0>::type>::type;
+	using T01 = typename Add<typename T1::template get<0,1>::type, typename T2::template get<0,1>::type>::type;
+	using T10 = typename Add<typename T1::template get<1,0>::type, typename T2::template get<1,0>::type>::type;
+	using T11 = typename Add<typename T1::template get<1,1>::type, typename T2::template get<1,1>::type>::type;
+	using type = typename Matrix<T1::n, typename T00::type, typename T01::type, typename T10::type, typename T11::type >::type;
+};
+
+template<typename T1, typename T2> struct AntiCommutator
+{
+	using type = typename MatrixAdd<typename MatrixMult<typename T1::type,typename T2::type>::type, typename MatrixMult<typename T2::type,typename T1::type>::type >::type;
 };
 
 template<int N, int CurN> std::ostream& printMatrixHelper(std::ostream &out)
