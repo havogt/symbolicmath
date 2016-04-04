@@ -8,12 +8,11 @@
 #ifndef COMPARE_H_
 #define COMPARE_H_
 
+#include "helper/void_t.h"
 #include "helper/symbolicmath_type_traits.h"
 
 namespace symbolicmath
 {
-
-template <typename... Ts> using void_t = void;
 
 template<typename T1, typename T2, typename = void> struct LessType;//{};
 template<typename T1, typename T2, typename = void> struct LessValue{};
