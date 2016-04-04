@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "symbolicmath.h"
 
 using namespace symbolicmath;

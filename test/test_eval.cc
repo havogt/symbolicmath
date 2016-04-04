@@ -1,5 +1,6 @@
-#include "symbolicmath.h"
+#include <iostream>
 
+#include "symbolicmath.h"
 using namespace symbolicmath;
 
 using V0 = RuntimeValue<0>;

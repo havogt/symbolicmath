@@ -1,6 +1,7 @@
 #include "symbolicmath.h"
 
 #include <typeinfo>
+#include <iostream>
 
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/begin.hpp>
