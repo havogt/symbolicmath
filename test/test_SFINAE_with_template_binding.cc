@@ -9,11 +9,11 @@ template<typename T> struct TemporaryBindObject
 
 template<template<typename...> class Dest> struct TestValidBind
 {
-	template<typename... Ts> struct toTypesOf
+	template<typename T, typename = void_t<>> struct toTypesOf
 	{
 		using type = std::false_type;
 	};
-	template<template<typename...> class Src, typename... Ts> struct toTypesOf<Src<Ts...>, void_t<Dest<Ts...,void>>>
+	template<template<typename...> class Src, typename... Ts> struct toTypesOf<Src<Ts...>, void_t<Dest<Ts...,float>>>
 	{
 		using type = std::true_type;
 	};
