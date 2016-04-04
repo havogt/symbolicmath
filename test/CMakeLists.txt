@@ -42,6 +42,10 @@ add_executable( test_gcc4_problem
     test_gcc4_problem.cc
     )
     
+add_executable( test_clang_problem
+    test_clang_problem.cc
+    )
+    
     
 find_package( CUDA )
 

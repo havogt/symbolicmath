@@ -25,7 +25,7 @@ constexpr int ConstexprSqrt( int I, int R = 1 )
 template<int I> struct CompileTimeSqrt
 {
 	static constexpr int value = ConstexprSqrt(I);
-	static_assert( value >= 0, "CompileTimeSqrt called for non-square number" );
+//	static_assert( value >= 0, "CompileTimeSqrt called for non-square number" ); // FIXME: Problem in clang++-3.8
 };
 
 //template<int I> struct Sqrt<Int<I>>
