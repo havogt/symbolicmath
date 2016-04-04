@@ -10,13 +10,9 @@ template<typename T> struct TemporaryBindObject
 template<template<typename...> class Dest> struct TestValidBind
 {
 	template<typename T, typename = void_t<>> struct toTypesOf
-	{
-		using type = std::false_type;
-	};
+		: std::false_type{};
 	template<template<typename...> class Src, typename... Ts> struct toTypesOf<Src<Ts...>, void_t<Dest<Ts...,float>>>
-	{
-		using type = std::true_type;
-	};
+		: std::true_type{};
 };
 
 template<typename T> struct OneParamStruct
@@ -30,6 +26,6 @@ int main()
 {
 	using tmp = TemporaryBindObject<int>;
 
-	std::cout << "Can bind to TwoParamStruct: " << TestValidBind<TwoParamStruct>::toTypesOf<tmp>::type::value << std::endl;
-	std::cout << "Can bind to OneParamStruct: " << TestValidBind<OneParamStruct>::toTypesOf<tmp>::type::value << std::endl;
+	std::cout << "Can bind to TwoParamStruct: " << TestValidBind<TwoParamStruct>::toTypesOf<tmp>::value << std::endl;
+	std::cout << "Can bind to OneParamStruct: " << TestValidBind<OneParamStruct>::toTypesOf<tmp>::value << std::endl;
 }
