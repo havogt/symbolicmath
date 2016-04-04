@@ -1,5 +1,10 @@
-#include <iostream>
-
+/**
+ * Compiling with nvcc (7.5) triggers the error (compilation with nvcc forced):
+ * nvcc -x=cu -std=c++11 test_nvcc7.5_problem.cc
+ *
+ * While compiling with the same host compiler works (file is compiled with host compiler directly):
+ * nvcc -std=c++11 test_nvcc7.5_problem.cc
+ */
 
 template<typename... Ts> struct TemporaryBindObject
 {
@@ -22,5 +27,5 @@ template<typename T1, typename = void> struct SomeStruct
 int main()
 {
 	using tmp = TemporaryBindObject<int>;
-	using type = BindWith<SomeStruct>::toTypesOf<tmp>::type;
+	using type = Bind<SomeStruct>::toTypesOf<tmp>::type;
 }

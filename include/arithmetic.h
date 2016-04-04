@@ -39,7 +39,8 @@ template<typename T> std::ostream& operator<<( std::ostream &out, Neg<T> )
 
 template<typename T1, typename T2, typename = void> struct Add
 {
-	using type = typename SortAndBind<::symbolicmath::Add,T1,T2>::type;
+	// SortAndBind needs to add a void manually due to a bug in nvcc-7.5
+	using type = typename SortAndBindWithVoid<::symbolicmath::Add,T1,T2>::type;
 	using nested_type = T1; // TODO should be both
 
 	template<typename... Args> CUDA_HOST_DEVICE static double eval( Args... args )
@@ -50,7 +51,8 @@ template<typename T1, typename T2, typename = void> struct Add
 
 template<typename T1, typename T2, typename = void> struct Mult
 {
-	using type = typename SortAndBind<::symbolicmath::Mult,T1,T2>::type;
+	// SortAndBind needs to add a void manually due to a bug in nvcc-7.5
+	using type = typename SortAndBindWithVoid<::symbolicmath::Mult,T1,T2>::type;
 	using nested_type = T1; // TODO should be both
 
 	template<typename... Args> CUDA_HOST_DEVICE static double eval( Args... args )

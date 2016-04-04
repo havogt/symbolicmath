@@ -6,7 +6,7 @@
 #include <boost/mpl/sort.hpp>
 #include <boost/mpl/at.hpp>
 #include <boost/mpl/deref.hpp>
-#include <boost/variant/variant.hpp>
+#include <boost/mpl/push_back.hpp>
 
 namespace symbolicmath
 {
@@ -25,6 +25,19 @@ template<typename... Ts> struct Sort
 template<template<typename...> class Template, typename... Ts> struct SortAndBind
 {
 	using sortedList = typename Sort<Ts...>::sortedList;
+	using type = typename BindList<sortedList,Template>::type;
+};
+
+/**
+ * Workaround for bug in nvcc-7.5
+ * nvcc complains about too few arguments if you try to bind without an default initialized (typename = void) type
+ * even if it is in the host part of the file.
+ * Using the same host compiler directly does not produce the error.
+ * With the workaround, the missing void type is added manually to the bind list.
+ */
+template<template<typename...> class Template, typename... Ts> struct SortAndBindWithVoid
+{
+	using sortedList = typename boost::mpl::push_back<typename Sort<Ts...>::sortedList,void>::type;
 	using type = typename BindList<sortedList,Template>::type;
 };
 

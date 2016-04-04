@@ -56,7 +56,7 @@ template<int I> struct RuntimeValue
 	 *  TODO: check runtime cost
 	 *  TODO: better would be to check at compiletime how many args are needed
 	 */
-	static inline void NotEnoughArgumentsSupplied()
+	CUDA_HOST_DEVICE static inline void NotEnoughArgumentsSupplied()
 	{
 		int ArgsGiven = I - 1;
 		assert( ArgsGiven >= I );
