@@ -1,6 +1,7 @@
 #ifndef SCALAR_H_
 #define SCALAR_H_
 
+#include <assert.h>
 #include "helper/cuda_common.h"
 
 namespace symbolicmath
@@ -50,15 +51,26 @@ template<int I> struct RuntimeValue
 	using type = RuntimeValue<I>;
 	using nested_type = Int<I>;
 
+	/**
+	 *  If this point is reached the user did not supply enough arguments.
+	 *  TODO: check runtime cost
+	 *  TODO: better would be to check at compiletime how many args are needed
+	 */
+	static inline void NotEnoughArgumentsSupplied()
+	{
+		int ArgsGiven = I - 1;
+		assert( ArgsGiven >= I );
+	}
 	template<int ArgI> CUDA_HOST_DEVICE static inline  double evalHelper()
 	{
-		return 0;// TODO error
+		NotEnoughArgumentsSupplied();
+		return 0;
 	}
+
 
 	template<int ArgI, typename First, typename... Args> CUDA_HOST_DEVICE static inline double evalHelper( First first, Args... args )
 	{
-		if( ArgI==I ) return first;
-		else return evalHelper<ArgI+1>( args... );
+		return ( ArgI==I )? first :evalHelper<ArgI+1>( args... );
 	}
 
 	template<typename... Args> CUDA_HOST_DEVICE static inline double eval( Args... args )
